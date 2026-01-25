@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eShip - Multi-Carrier Shipping Platform</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🚚 eShip</h1>
+            <p class="tagline">Multi-Carrier Shipping Platform</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <button class="nav-btn active" data-section="rates">Rate Calculator</button>
+            <button class="nav-btn" data-section="labels">Shipping Labels</button>
+            <button class="nav-btn" data-section="tracking">Package Tracking</button>
+            <button class="nav-btn" data-section="address">Address Validation</button>
+            <button class="nav-btn" data-section="pickup">Schedule Pickup</button>
+            <button class="nav-btn" data-section="customs">Customs Docs</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Rate Calculator Section -->
+        <section id="rates" class="section active">
+            <h2>Calculate Shipping Rates</h2>
+            <div class="card">
+                <form id="ratesForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Origin Country</label>
+                            <input type="text" name="origin.country" value="US" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Origin City</label>
+                            <input type="text" name="origin.city" placeholder="New York" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Origin State</label>
+                            <input type="text" name="origin.state" placeholder="NY" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Origin Postal Code</label>
+                            <input type="text" name="origin.postalCode" placeholder="10001" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Destination Country</label>
+                            <input type="text" name="destination.country" value="US" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Destination City</label>
+                            <input type="text" name="destination.city" placeholder="Los Angeles" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Destination State</label>
+                            <input type="text" name="destination.state" placeholder="CA" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Destination Postal Code</label>
+                            <input type="text" name="destination.postalCode" placeholder="90001" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Weight (lbs)</label>
+                            <input type="number" name="weight" value="5" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Shipment Type</label>
+                            <select name="shipmentType">
+                                <option value="small_package">Small Package</option>
+                                <option value="ltl">LTL (Less Than Truckload)</option>
+                                <option value="air_freight">Air Freight</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Carrier (optional)</label>
+                            <select name="carrier">
+                                <option value="">All Carriers</option>
+                                <option value="ups">UPS</option>
+                                <option value="fedex">FedEx</option>
+                                <option value="dhl">DHL</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Get Rates</button>
+                </form>
+            </div>
+
+            <div id="ratesResult" class="result-container"></div>
+        </section>
+
+        <!-- Shipping Labels Section -->
+        <section id="labels" class="section">
+            <h2>Generate Shipping Label</h2>
+            <div class="card">
+                <form id="labelsForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Carrier *</label>
+                            <select name="carrier" required>
+                                <option value="">Select Carrier</option>
+                                <option value="ups">UPS</option>
+                                <option value="fedex">FedEx</option>
+                                <option value="dhl">DHL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Service</label>
+                            <input type="text" name="service" placeholder="Ground">
+                        </div>
+                        <div class="form-group">
+                            <label>Weight (lbs)</label>
+                            <input type="number" name="weight" value="5" step="0.1" required>
+                        </div>
+                    </div>
+
+                    <h3>Origin Address</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Street</label>
+                            <input type="text" name="origin.street" placeholder="123 Main St" required>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" name="origin.city" placeholder="New York" required>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" name="origin.state" placeholder="NY" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" name="origin.postalCode" placeholder="10001" required>
+                        </div>
+                    </div>
+
+                    <h3>Destination Address</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Street</label>
+                            <input type="text" name="destination.street" placeholder="456 Oak Ave" required>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" name="destination.city" placeholder="Los Angeles" required>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" name="destination.state" placeholder="CA" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" name="destination.postalCode" placeholder="90001" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create Label</button>
+                </form>
+            </div>
+
+            <div id="labelsResult" class="result-container"></div>
+        </section>
+
+        <!-- Package Tracking Section -->
+        <section id="tracking" class="section">
+            <h2>Track Package</h2>
+            <div class="card">
+                <form id="trackingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Carrier *</label>
+                            <select name="carrier" required>
+                                <option value="">Select Carrier</option>
+                                <option value="ups">UPS</option>
+                                <option value="fedex">FedEx</option>
+                                <option value="dhl">DHL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tracking Number *</label>
+                            <input type="text" name="trackingNumber" placeholder="Enter tracking number" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Track Package</button>
+                </form>
+            </div>
+
+            <div id="trackingResult" class="result-container"></div>
+        </section>
+
+        <!-- Address Validation Section -->
+        <section id="address" class="section">
+            <h2>Validate Address</h2>
+            <div class="card">
+                <form id="addressForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Street</label>
+                            <input type="text" name="street" placeholder="123 Main St" required>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" name="city" placeholder="New York" required>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" name="state" placeholder="NY" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" name="postalCode" placeholder="10001" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Country</label>
+                            <input type="text" name="country" value="US" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Carrier</label>
+                            <select name="carrier">
+                                <option value="ups">UPS</option>
+                                <option value="fedex">FedEx</option>
+                                <option value="dhl">DHL</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Validate Address</button>
+                </form>
+            </div>
+
+            <div id="addressResult" class="result-container"></div>
+        </section>
+
+        <!-- Pickup Scheduling Section -->
+        <section id="pickup" class="section">
+            <h2>Schedule Pickup</h2>
+            <div class="card">
+                <form id="pickupForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Carrier *</label>
+                            <select name="carrier" required>
+                                <option value="">Select Carrier</option>
+                                <option value="ups">UPS</option>
+                                <option value="fedex">FedEx</option>
+                                <option value="dhl">DHL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Pickup Date *</label>
+                            <input type="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Time Window</label>
+                            <input type="text" name="timeWindow" placeholder="9:00 AM - 5:00 PM">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Street</label>
+                            <input type="text" name="address.street" placeholder="123 Main St" required>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" name="address.city" placeholder="New York" required>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" name="address.state" placeholder="NY" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" name="address.postalCode" placeholder="10001" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Schedule Pickup</button>
+                </form>
+            </div>
+
+            <div id="pickupResult" class="result-container"></div>
+        </section>
+
+        <!-- Customs Documentation Section -->
+        <section id="customs" class="section">
+            <h2>Create Customs Documentation</h2>
+            <div class="card">
+                <form id="customsForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Carrier *</label>
+                            <select name="carrier" required>
+                                <option value="">Select Carrier</option>
+                                <option value="ups">UPS</option>
+                                <option value="fedex">FedEx</option>
+                                <option value="dhl">DHL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Document Type</label>
+                            <select name="type">
+                                <option value="Commercial Invoice">Commercial Invoice</option>
+                                <option value="Proforma Invoice">Proforma Invoice</option>
+                                <option value="Certificate of Origin">Certificate of Origin</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3>Items</h3>
+                    <div id="customsItems">
+                        <div class="customs-item">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <input type="text" name="items[0].description" placeholder="Product description" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantity</label>
+                                    <input type="number" name="items[0].quantity" value="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Value (USD)</label>
+                                    <input type="number" name="items[0].value" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>HS Code</label>
+                                    <input type="text" name="items[0].hsCode" placeholder="Optional">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" onclick="addCustomsItem()">Add Item</button>
+                    <button type="submit" class="btn btn-primary">Generate Documents</button>
+                </form>
+            </div>
+
+            <div id="customsResult" class="result-container"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 eShip - Multi-Carrier Shipping Platform</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
