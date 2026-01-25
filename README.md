@@ -232,6 +232,18 @@ This is a demonstration application. The carrier integrations use simulated resp
 5. Add database for storing shipment history
 6. Implement webhook handlers for tracking updates
 
+## Security Considerations
+
+This is a demonstration application. For production deployment:
+
+1. **Rate Limiting**: Implement rate limiting middleware (e.g., `express-rate-limit`) to protect against abuse and DDoS attacks
+2. **Authentication**: Add proper authentication and authorization for API endpoints
+3. **Input Validation**: Implement comprehensive input validation and sanitization
+4. **HTTPS**: Use HTTPS/TLS for all communications
+5. **API Keys**: Securely store and manage carrier API credentials using environment variables and secrets management
+6. **Error Handling**: Avoid exposing sensitive information in error messages
+7. **Logging**: Implement proper logging and monitoring for security events
+
 ## License
 
 ISC

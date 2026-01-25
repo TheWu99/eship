@@ -25,6 +25,8 @@ app.get('/api/health', (req, res) => {
 });
 
 // Serve the main page
+// NOTE: For production deployment, consider adding rate limiting middleware
+// (e.g., express-rate-limit) to protect against abuse and DDoS attacks
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
