@@ -1,6 +1,25 @@
 {
   "name": "eship",
   "version": "1.0.0",
+  "description": "E-commerce shipping platform with sandbox, monetization, billing, routing and POD features",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": ["shipping", "logistics", "e-commerce", "platform"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^25.0.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
   "description": "Multi-carrier shipping platform with unified API for UPS, FedEx, and DHL",
   "main": "src/server.js",
   "scripts": {
