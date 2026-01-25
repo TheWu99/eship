@@ -166,7 +166,7 @@ export class MultiWarehouseRouter {
     // In production, integrate with Google Maps API, Mapbox, or similar
     
     // Mock coordinates based on ZIP code (first digit for latitude, second for longitude)
-    const zipNumber = parseInt(address.zipCode.substring(0, 2)) || 0;
+    const zipNumber = parseInt(address.zipCode.substring(0, 2), 10) || 0;
     
     return {
       latitude: 30 + (zipNumber % 20), // Range: 30-50 (approximate US latitude range)

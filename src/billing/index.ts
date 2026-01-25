@@ -132,7 +132,7 @@ export class ConsolidatedBilling {
       
       // Aggregate by date
       const dateKey = txn.timestamp.toISOString().split('T')[0];
-      if (dateKey) {
+      if (dateKey !== undefined) {
         const dateTotal = byDate.get(dateKey) || 0;
         byDate.set(dateKey, dateTotal + txn.amount);
       }
