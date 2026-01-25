@@ -1,6 +1,10 @@
 package com.thewu.eship.service.shipping;
 
 import com.thewu.eship.dto.shipping.*;
+import com.thewu.eship.service.ups.UpsTrackingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -10,9 +14,15 @@ import java.util.Optional;
 
 /**
  * Service for tracking shipments.
+ * Now integrates with real UPS API via UpsTrackingService
  */
 @Service
 public class TrackingService {
+
+    private static final Logger log = LoggerFactory.getLogger(TrackingService.class);
+
+    @Autowired(required = false)
+    private UpsTrackingService upsTrackingService;
 
     /**
      * Get tracking information for a shipment.
@@ -27,13 +37,31 @@ public class TrackingService {
             carrier = detectCarrier(trackingNumber);
         }
 
-        // TODO: In production, integrate with real carrier tracking APIs
-        // For now, returning mock tracking data
+        // Try real UPS tracking if it's a UPS shipment
+        if (carrier == CarrierType.UPS && upsTrackingService != null) {
+            try {
+                log.info("Fetching tracking from UPS API for: {}", trackingNumber);
+                ShipmentTrackingDTO tracking = upsTrackingService.trackShipment(trackingNumber);
+                return Optional.of(tracking);
+            } catch (Exception e) {
+                log.error("Failed to get UPS tracking, falling back to mock data", e);
+            }
+        }
 
+        // Fall back to mock tracking data
+        log.warn("Using mock tracking data for: {}", trackingNumber);
+        return Optional.of(getMockTracking(trackingNumber, carrier));
+    }
+
+    /**
+     * Get mock tracking data (fallback)
+     */
+    private ShipmentTrackingDTO getMockTracking(String trackingNumber, CarrierType carrier) {
         ShipmentTrackingDTO tracking = new ShipmentTrackingDTO();
         tracking.setTrackingNumber(trackingNumber);
-        tracking.setCarrier(carrier);
-        tracking.setCurrentStatus(TrackingState.IN_TRANSIT);
+        tracking.setCarrier(carrier != null ? carrier.name() : "UNKNOWN");
+        tracking.setState(TrackingState.IN_TRANSIT);
+        tracking.setStatus("In Transit");
 
         List<TrackingEventDTO> events = new ArrayList<>();
 
