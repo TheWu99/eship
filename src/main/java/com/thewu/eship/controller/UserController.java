@@ -24,8 +24,6 @@ public class UserController {
         User user = userRepository.findByUsername(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
-        // Don't send password in response
-        user.setPassword(null);
         return ResponseEntity.ok(user);
     }
     
@@ -33,8 +31,6 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
-        // Remove passwords from response
-        users.forEach(user -> user.setPassword(null));
         return ResponseEntity.ok(users);
     }
     
@@ -43,7 +39,6 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        user.setPassword(null);
         return ResponseEntity.ok(user);
     }
 }
