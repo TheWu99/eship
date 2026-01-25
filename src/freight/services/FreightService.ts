@@ -297,16 +297,16 @@ export class FreightService {
   }
 
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
   }
 
   private generatePRONumber(): string {
     // PRO number format: 9 digits
-    return Math.random().toString().substr(2, 9);
+    return Math.random().toString().slice(2, 11);
   }
 
   private generateBOLUrl(): string {
-    const id = Math.random().toString(36).substr(2, 12);
+    const id = Math.random().toString(36).slice(2, 14);
     return `https://api.eship.com/bol/${id}.pdf`;
   }
 }

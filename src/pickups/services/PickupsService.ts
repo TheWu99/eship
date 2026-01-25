@@ -124,12 +124,12 @@ export class PickupsService {
   }
 
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
   }
 
   private generateConfirmationNumber(carrier: CarrierType): string {
     const prefix = carrier.substring(0, 3).toUpperCase();
-    const number = Math.random().toString().substr(2, 10);
+    const number = Math.random().toString().slice(2, 12);
     return `${prefix}${number}`;
   }
 }
@@ -229,16 +229,16 @@ export class ManifestingService {
   }
 
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
   }
 
   private generateManifestUrl(): string {
-    const id = Math.random().toString(36).substr(2, 12);
+    const id = Math.random().toString(36).slice(2, 14);
     return `https://api.eship.com/manifests/${id}.pdf`;
   }
 
   private generateScanFormUrl(): string {
-    const id = Math.random().toString(36).substr(2, 12);
+    const id = Math.random().toString(36).slice(2, 14);
     return `https://api.eship.com/scan-forms/${id}.pdf`;
   }
 }

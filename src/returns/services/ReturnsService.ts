@@ -198,16 +198,16 @@ export class ReturnsService {
   }
 
   private generateSessionId(): string {
-    return `SES-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `SES-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
   }
 
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
   }
 
   private generateTrackingNumber(): string {
     const prefix = '9400';
-    const suffix = Math.random().toString().substr(2, 18);
+    const suffix = Math.random().toString().slice(2, 20);
     return prefix + suffix;
   }
 

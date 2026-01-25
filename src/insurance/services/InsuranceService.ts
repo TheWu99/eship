@@ -81,12 +81,12 @@ export class InsuranceService {
   }
 
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
   }
 
   private generatePolicyNumber(): string {
     const timestamp = Date.now().toString();
-    const random = Math.random().toString(36).substr(2, 6).toUpperCase();
+    const random = Math.random().toString(36).slice(2, 8).toUpperCase();
     return `POL-${timestamp}-${random}`;
   }
 }
@@ -187,6 +187,6 @@ export class ClaimsService {
   }
 
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
   }
 }
