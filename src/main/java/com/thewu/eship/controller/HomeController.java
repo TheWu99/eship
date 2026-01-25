@@ -10,11 +10,11 @@ public class HomeController {
 
 	@GetMapping("/hello")
 	public String hello() {
-		return "Welcome to E-Ship Application - Built with Spring Boot 3.3.1!";
+		return "Welcome to E-Ship Application - Built with Spring Boot 3.5.10!";
 	}
 
 	@GetMapping("/version")
 	public String version() {
-		return "Spring Boot Version: 3.3.1";
+		return "Spring Boot Version: 3.5.10";
 	}
 }

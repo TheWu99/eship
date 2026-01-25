@@ -1,10 +1,10 @@
 # E-Ship Application
 
-A modern e-commerce shipping application built with Spring Boot 3.3.1.
+A modern e-commerce shipping application built with Spring Boot 3.5.10.
 
 ## Technology Stack
 
-- **Spring Boot**: 3.3.1 (Latest version)
+- **Spring Boot**: 3.5.10 (Latest version)
 - **Java**: 17
 - **Build Tool**: Maven
 - **Web Framework**: Spring Web MVC
