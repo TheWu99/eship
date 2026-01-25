@@ -8,7 +8,11 @@
     "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "example:rate-shopping": "ts-node examples/rate-shopping-example.ts",
+    "example:cartonization": "ts-node examples/cartonization-example.ts",
+    "example:freight": "ts-node examples/freight-example.ts",
+    "example:workflow": "ts-node examples/complete-workflow.ts"
   },
   "keywords": [
     "shipping",
