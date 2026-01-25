@@ -16,13 +16,14 @@ A comprehensive enterprise shipping platform providing advanced shipping managem
 - **ORM**: Spring Data JPA with Hibernate
 
 ### Frontend
-- **Language**: TypeScript
-- **Runtime**: Node.js
-- **Package Manager**: npm
+- **Language**: Vanilla JavaScript (ES6+)
+- **Served by**: Spring Boot Static Resources
+- **No Build Tools Required**: Direct browser execution
 
 ### Database
 - **RDBMS**: PostgreSQL 16
 - **Connection**: JDBC Driver for PostgreSQL
+- **Testing**: H2 In-Memory Database
 
 ### Shipping Features
 - **Multi-Carrier Rating**: Compare rates across UPS, FedEx, USPS, DHL
@@ -43,7 +44,6 @@ A comprehensive enterprise shipping platform providing advanced shipping managem
 Before you begin, ensure you have the following installed:
 - **Java 21 LTS** or higher
 - **Maven 3.9+**
-- **Node.js 16+** and npm
 - **PostgreSQL 16**
 - **Visual Studio Code** (recommended)
 
@@ -58,11 +58,6 @@ CREATE DATABASE eship;
 
 ### 2. Configure Application
 
-Copy `.env.example` to `.env` and update the database credentials:
-```bash
-cp .env.example .env
-```
-
 Update `src/main/resources/application.properties` if needed:
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/eship
@@ -70,29 +65,19 @@ spring.datasource.username=postgres
 spring.datasource.password=postgres
 ```
 
-### 3. Build and Run Backend (Spring Boot)
+### 3. Build and Run
 
 ```bash
-# Install dependencies and build
+# Build the application
 mvn clean install
 
 # Run the application
 mvn spring-boot:run
 ```
 
-The backend will start on `http://localhost:8080`
+The application will start on `http://localhost:8080`
 
-### 4. Install Frontend Dependencies
-
-```bash
-npm install
-```
-
-### 5. Build TypeScript
-
-```bash
-npm run build
-```
+Access the web UI at: `http://localhost:8080/index.html`
 
 ## 🔐 Authentication API
 
