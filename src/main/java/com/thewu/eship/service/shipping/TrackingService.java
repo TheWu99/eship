@@ -13,12 +13,12 @@ import java.util.Optional;
  */
 @Service
 public class TrackingService {
-    
+
     /**
      * Get tracking information for a shipment.
      * 
      * @param trackingNumber The tracking number
-     * @param carrier Optional carrier filter
+     * @param carrier        Optional carrier filter
      * @return Tracking information
      */
     public Optional<ShipmentTrackingDTO> getTracking(String trackingNumber, CarrierType carrier) {
@@ -26,52 +26,48 @@ public class TrackingService {
         if (carrier == null) {
             carrier = detectCarrier(trackingNumber);
         }
-        
+
         // TODO: In production, integrate with real carrier tracking APIs
         // For now, returning mock tracking data
-        
+
         ShipmentTrackingDTO tracking = new ShipmentTrackingDTO();
         tracking.setTrackingNumber(trackingNumber);
         tracking.setCarrier(carrier);
         tracking.setCurrentStatus(TrackingState.IN_TRANSIT);
-        
+
         List<TrackingEventDTO> events = new ArrayList<>();
-        
+
         // Mock events
         events.add(createEvent(
-            LocalDateTime.now().minusDays(3),
-            TrackingState.PRE_TRANSIT,
-            "Shipping label created",
-            "Origin facility"
-        ));
-        
+                LocalDateTime.now().minusDays(3),
+                TrackingState.PRE_TRANSIT,
+                "Shipping label created",
+                "Origin facility"));
+
         events.add(createEvent(
-            LocalDateTime.now().minusDays(2),
-            TrackingState.IN_TRANSIT,
-            "Package picked up",
-            "Origin facility"
-        ));
-        
+                LocalDateTime.now().minusDays(2),
+                TrackingState.IN_TRANSIT,
+                "Package picked up",
+                "Origin facility"));
+
         events.add(createEvent(
-            LocalDateTime.now().minusDays(1),
-            TrackingState.IN_TRANSIT,
-            "In transit to destination",
-            "Sort facility"
-        ));
-        
+                LocalDateTime.now().minusDays(1),
+                TrackingState.IN_TRANSIT,
+                "In transit to destination",
+                "Sort facility"));
+
         events.add(createEvent(
-            LocalDateTime.now(),
-            TrackingState.OUT_FOR_DELIVERY,
-            "Out for delivery",
-            "Destination city"
-        ));
-        
+                LocalDateTime.now(),
+                TrackingState.OUT_FOR_DELIVERY,
+                "Out for delivery",
+                "Destination city"));
+
         tracking.setEvents(events);
         tracking.setEstimatedDelivery(LocalDateTime.now().plusDays(1));
-        
+
         return Optional.of(tracking);
     }
-    
+
     /**
      * Detect carrier from tracking number format.
      */
@@ -87,13 +83,13 @@ public class TrackingService {
         }
         return CarrierType.OTHER;
     }
-    
+
     private TrackingEventDTO createEvent(
             LocalDateTime timestamp,
             TrackingState status,
             String message,
             String location) {
-        
+
         TrackingEventDTO event = new TrackingEventDTO();
         event.setTimestamp(timestamp);
         event.setStatus(status);

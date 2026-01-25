@@ -15,20 +15,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomsFormDTO {
-    
+
     private String contentsType = "merchandise";
-    
+
     private String contentsExplanation;
-    
+
     private boolean customsCertify = true;
-    
+
     @NotBlank(message = "Customs signer is required")
     private String customsSigner;
-    
+
     @NotEmpty(message = "At least one customs item is required")
     private List<CustomsItemDTO> items;
-    
+
     private String eelPfc; // EEI/PFC code
-    
+
     private String invoiceNumber;
 }

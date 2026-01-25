@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LabelDTO {
-    
+
     private String trackingNumber;
-    
+
     private CarrierType carrier;
-    
+
     private LabelFormat format;
-    
+
     private String content; // Base64 encoded label content
-    
+
     private LocalDateTime createdAt = LocalDateTime.now();
 }

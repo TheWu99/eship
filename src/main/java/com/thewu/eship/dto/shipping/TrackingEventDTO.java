@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TrackingEventDTO {
-    
+
     private LocalDateTime timestamp;
-    
+
     private TrackingState status;
-    
+
     private String message;
-    
+
     private String location;
-    
+
     private String carrierStatus; // original carrier status code
 }

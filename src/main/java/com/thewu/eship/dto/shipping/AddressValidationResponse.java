@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressValidationResponse {
-    
+
     private AddressDTO address;
-    
+
     private boolean valid;
-    
+
     private AddressType addressType;
 }

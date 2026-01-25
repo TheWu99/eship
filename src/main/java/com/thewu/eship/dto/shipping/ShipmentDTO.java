@@ -15,31 +15,31 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShipmentDTO {
-    
+
     private String id;
-    
+
     @NotNull(message = "From address is required")
     @Valid
     private AddressDTO fromAddress;
-    
+
     @NotNull(message = "To address is required")
     @Valid
     private AddressDTO toAddress;
-    
+
     @NotNull(message = "Package information is required")
     @Valid
     private PackageDTO packageInfo;
-    
+
     private CarrierType carrier;
-    
+
     private String service;
-    
+
     private LabelFormat labelFormat = LabelFormat.PDF;
-    
+
     @Valid
     private CustomsFormDTO customs;
-    
+
     private String reference; // customer reference number
-    
+
     private LocalDateTime createdAt = LocalDateTime.now();
 }

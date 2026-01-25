@@ -19,10 +19,10 @@ import java.util.Map;
 @RequestMapping("/api/v1/address")
 @CrossOrigin(origins = "*")
 public class AddressController {
-    
+
     @Autowired
     private AddressValidationService addressService;
-    
+
     /**
      * Validate and standardize an address.
      * 
@@ -38,7 +38,7 @@ public class AddressController {
             throw new RuntimeException("Error validating address: " + e.getMessage(), e);
         }
     }
-    
+
     /**
      * Classify an address as residential or commercial.
      * 
@@ -49,11 +49,11 @@ public class AddressController {
     public ResponseEntity<Map<String, Object>> classifyAddress(@Valid @RequestBody AddressDTO address) {
         try {
             AddressType addressType = addressService.detectAddressType(address);
-            
+
             Map<String, Object> response = new HashMap<>();
             response.put("address_type", addressType);
             response.put("confidence", "medium"); // In production, this would be based on data sources
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             throw new RuntimeException("Error classifying address: " + e.getMessage(), e);

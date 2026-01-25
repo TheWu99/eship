@@ -15,16 +15,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShipmentTrackingDTO {
-    
+
     private String trackingNumber;
-    
+
     private CarrierType carrier;
-    
+
     private TrackingState currentStatus;
-    
+
     private List<TrackingEventDTO> events = new ArrayList<>();
-    
+
     private LocalDateTime estimatedDelivery;
-    
+
     private LocalDateTime actualDelivery;
 }

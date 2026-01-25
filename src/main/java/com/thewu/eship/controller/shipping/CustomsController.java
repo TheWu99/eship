@@ -17,10 +17,10 @@ import java.util.Map;
 @RequestMapping("/api/v1/customs")
 @CrossOrigin(origins = "*")
 public class CustomsController {
-    
+
     @Autowired
     private CustomsService customsService;
-    
+
     /**
      * Generate customs form for international shipment.
      * 
@@ -33,13 +33,13 @@ public class CustomsController {
             if (!customsService.requiresCustoms(shipment)) {
                 throw new IllegalArgumentException("Customs documentation not required for domestic shipments");
             }
-            
+
             String customsForm = customsService.generateCustomsForm(shipment);
-            
+
             Map<String, String> response = new HashMap<>();
             response.put("customs_form", customsForm);
             response.put("format", "base64");
-            
+
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e.getMessage(), e);
@@ -47,7 +47,7 @@ public class CustomsController {
             throw new RuntimeException("Error generating customs form: " + e.getMessage(), e);
         }
     }
-    
+
     /**
      * Check if shipment requires customs documentation.
      * 
@@ -58,10 +58,10 @@ public class CustomsController {
     public ResponseEntity<Map<String, Boolean>> checkCustomsRequirement(@Valid @RequestBody ShipmentDTO shipment) {
         try {
             boolean required = customsService.requiresCustoms(shipment);
-            
+
             Map<String, Boolean> response = new HashMap<>();
             response.put("customs_required", required);
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             throw new RuntimeException("Error checking customs requirement: " + e.getMessage(), e);
