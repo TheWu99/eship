@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "vscjava.vscode-java-pack",
+    "vscjava.vscode-spring-boot-dashboard",
+    "pivotal.vscode-boot-dev-pack",
+    "vmware.vscode-spring-boot",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.black-formatter",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
+    "ms-azuretools.vscode-docker",
+    "redhat.vscode-yaml",
+    "editorconfig.editorconfig"
+  ]
+}
