@@ -13,6 +13,35 @@
     "example:cartonization": "ts-node examples/cartonization-example.ts",
     "example:freight": "ts-node examples/freight-example.ts",
     "example:workflow": "ts-node examples/complete-workflow.ts"
+  "description": "E-commerce shipping platform with sandbox, monetization, billing, routing and POD features",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": ["shipping", "logistics", "e-commerce", "platform"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^25.0.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
+  "description": "Multi-carrier shipping platform with unified API for UPS, FedEx, and DHL",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "jest --forceExit"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": ["/node_modules/"]
   },
   "keywords": [
     "shipping",
@@ -34,5 +63,22 @@
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
+    "multi-carrier",
+    "ups",
+    "fedex",
+    "dhl"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.13.3",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "supertest": "^7.2.2"
   }
 }
