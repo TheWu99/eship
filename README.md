@@ -1,6 +1,6 @@
 # eShip - Advanced Shipping Management Platform
 
-A comprehensive enterprise shipping platform providing advanced shipping management features including AI-driven rate shopping, intelligent cartonization, insurance management, returns portal, pickup scheduling, and LTL/freight capabilities.
+A comprehensive enterprise shipping platform providing advanced shipping management features including multi-carrier rate shopping, label generation, address validation, shipment tracking, customs documentation, and international shipping capabilities.
 
 ## 🛠 Technology Stack
 
@@ -10,7 +10,7 @@ A comprehensive enterprise shipping platform providing advanced shipping managem
 
 ### Backend
 - **Framework**: Spring Boot 3.5.10 (Latest)
-- **Language**: Java 17
+- **Language**: Java 21 LTS
 - **Build Tool**: Maven
 - **Security**: Spring Security with JWT Authentication
 - **ORM**: Spring Data JPA with Hibernate
@@ -24,17 +24,25 @@ A comprehensive enterprise shipping platform providing advanced shipping managem
 - **RDBMS**: PostgreSQL 16
 - **Connection**: JDBC Driver for PostgreSQL
 
-### Key Features
+### Shipping Features
+- **Multi-Carrier Rating**: Compare rates across UPS, FedEx, USPS, DHL
+- **Label Generation**: Create shipping labels in ZPL, PDF, or PNG formats
+- **Address Validation**: Verify and standardize addresses
+- **Tracking**: Unified tracking across all carriers with standardized status codes
+- **Customs Documentation**: Generate customs forms for international shipments
+- **Address Classification**: Detect residential vs commercial addresses
+
+### Security Features
 - **Account Management**: User registration, authentication, and profile management
-- **Account Authorization**: JWT-based authentication with role-based access control (RBAC)
+- **JWT Authentication**: Role-based access control (RBAC)
 - **Roles**: USER, ADMIN
 - **Password Encryption**: BCrypt
 
 ## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
-- **Java 17** or higher
-- **Maven 3.6+**
+- **Java 21 LTS** or higher
+- **Maven 3.9+**
 - **Node.js 16+** and npm
 - **PostgreSQL 16**
 - **Visual Studio Code** (recommended)
