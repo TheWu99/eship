@@ -2,12 +2,13 @@
 
 from enum import Enum
 from datetime import datetime
-from typing import Optional, List, Dict, Any
-from pydantic import BaseModel, Field, field_validator
+from typing import Optional, List
+from pydantic import BaseModel, Field
 
 
 class CarrierType(str, Enum):
     """Supported shipping carriers."""
+
     UPS = "UPS"
     FEDEX = "FedEx"
     USPS = "USPS"
@@ -17,12 +18,14 @@ class CarrierType(str, Enum):
 
 class AddressType(str, Enum):
     """Address classification types."""
+
     RESIDENTIAL = "residential"
     COMMERCIAL = "commercial"
 
 
 class TrackingState(str, Enum):
     """Standardized tracking states across all carriers."""
+
     PRE_TRANSIT = "pre_transit"
     IN_TRANSIT = "in_transit"
     OUT_FOR_DELIVERY = "out_for_delivery"
@@ -35,6 +38,7 @@ class TrackingState(str, Enum):
 
 class LabelFormat(str, Enum):
     """Supported label formats."""
+
     ZPL = "ZPL"
     PDF = "PDF"
     PNG = "PNG"
@@ -42,6 +46,7 @@ class LabelFormat(str, Enum):
 
 class Address(BaseModel):
     """Shipping address model."""
+
     name: str = Field(..., description="Recipient or business name")
     street1: str = Field(..., description="Primary street address")
     street2: Optional[str] = Field(None, description="Apartment, suite, etc.")
@@ -57,6 +62,7 @@ class Address(BaseModel):
 
 class Package(BaseModel):
     """Package dimensions and weight."""
+
     weight: float = Field(..., description="Weight in pounds", gt=0)
     length: float = Field(..., description="Length in inches", gt=0)
     width: float = Field(..., description="Width in inches", gt=0)
@@ -67,6 +73,7 @@ class Package(BaseModel):
 
 class Rate(BaseModel):
     """Shipping rate from a carrier."""
+
     carrier: CarrierType
     service: str = Field(..., description="Service level (e.g., Ground, Express)")
     rate: float = Field(..., description="Shipping cost in USD")
@@ -77,6 +84,7 @@ class Rate(BaseModel):
 
 class TrackingEvent(BaseModel):
     """Individual tracking event."""
+
     timestamp: datetime
     status: TrackingState
     message: str
@@ -86,6 +94,7 @@ class TrackingEvent(BaseModel):
 
 class ShipmentTracking(BaseModel):
     """Complete tracking information for a shipment."""
+
     tracking_number: str
     carrier: CarrierType
     current_status: TrackingState
@@ -96,6 +105,7 @@ class ShipmentTracking(BaseModel):
 
 class Label(BaseModel):
     """Shipping label."""
+
     tracking_number: str
     carrier: CarrierType
     format: LabelFormat
@@ -105,6 +115,7 @@ class Label(BaseModel):
 
 class CustomsItem(BaseModel):
     """Item for customs declaration."""
+
     description: str
     quantity: int = Field(..., gt=0)
     value: float = Field(..., description="Value per unit in USD", gt=0)
@@ -115,6 +126,7 @@ class CustomsItem(BaseModel):
 
 class CustomsForm(BaseModel):
     """Customs declaration form."""
+
     contents_type: str = Field(default="merchandise", description="Type of goods")
     contents_explanation: Optional[str] = None
     customs_certify: bool = Field(default=True)
@@ -126,6 +138,7 @@ class CustomsForm(BaseModel):
 
 class Shipment(BaseModel):
     """Complete shipment request."""
+
     id: Optional[str] = Field(None, description="Shipment identifier")
     from_address: Address
     to_address: Address
@@ -140,11 +153,11 @@ class Shipment(BaseModel):
 
 class WebhookSubscription(BaseModel):
     """Webhook subscription for tracking updates."""
+
     id: Optional[str] = None
     url: str = Field(..., description="Webhook endpoint URL")
     events: List[TrackingState] = Field(
-        default_factory=lambda: list(TrackingState),
-        description="Events to subscribe to"
+        default_factory=lambda: list(TrackingState), description="Events to subscribe to"
     )
     tracking_numbers: Optional[List[str]] = Field(None, description="Specific tracking numbers")
     active: bool = Field(default=True)
@@ -153,6 +166,7 @@ class WebhookSubscription(BaseModel):
 
 class WebhookEvent(BaseModel):
     """Webhook event payload."""
+
     event_id: str
     event_type: str
     timestamp: datetime

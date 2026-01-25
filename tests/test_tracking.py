@@ -29,11 +29,8 @@ async def test_detect_fedex_tracking_number(tracking_service):
 @pytest.mark.asyncio
 async def test_get_tracking_with_carrier(tracking_service):
     """Test getting tracking information."""
-    tracking = await tracking_service.get_tracking(
-        "1Z999AA10123456784",
-        CarrierType.UPS
-    )
-    
+    tracking = await tracking_service.get_tracking("1Z999AA10123456784", CarrierType.UPS)
+
     assert tracking is not None
     assert tracking.tracking_number == "1Z999AA10123456784"
     assert tracking.carrier == CarrierType.UPS
@@ -44,11 +41,8 @@ async def test_get_tracking_with_carrier(tracking_service):
 @pytest.mark.asyncio
 async def test_tracking_events_have_required_fields(tracking_service):
     """Test that tracking events have all required fields."""
-    tracking = await tracking_service.get_tracking(
-        "1Z999AA10123456784",
-        CarrierType.UPS
-    )
-    
+    tracking = await tracking_service.get_tracking("1Z999AA10123456784", CarrierType.UPS)
+
     for event in tracking.events:
         assert event.timestamp is not None
         assert event.status in TrackingState

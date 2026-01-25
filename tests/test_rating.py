@@ -19,7 +19,7 @@ def sample_shipment():
             city="New York",
             state="NY",
             postal_code="10001",
-            country="US"
+            country="US",
         ),
         to_address=Address(
             name="Recipient Name",
@@ -27,14 +27,9 @@ def sample_shipment():
             city="Los Angeles",
             state="CA",
             postal_code="90001",
-            country="US"
+            country="US",
         ),
-        package=Package(
-            weight=5.0,
-            length=12.0,
-            width=8.0,
-            height=6.0
-        )
+        package=Package(weight=5.0, length=12.0, width=8.0, height=6.0),
     )
 
 
@@ -42,9 +37,9 @@ def sample_shipment():
 async def test_get_rates_returns_multiple_carriers(rating_service, sample_shipment):
     """Test that rates are returned from multiple carriers."""
     rates = await rating_service.get_rates(sample_shipment)
-    
+
     assert len(rates) > 0
-    
+
     carriers = {rate.carrier for rate in rates}
     assert CarrierType.UPS in carriers
     assert CarrierType.FEDEX in carriers
@@ -56,7 +51,7 @@ async def test_get_rates_returns_multiple_carriers(rating_service, sample_shipme
 async def test_rates_sorted_by_price(rating_service, sample_shipment):
     """Test that rates are sorted by price (cheapest first)."""
     rates = await rating_service.get_rates(sample_shipment)
-    
+
     prices = [rate.rate for rate in rates]
     assert prices == sorted(prices)
 
@@ -65,7 +60,7 @@ async def test_rates_sorted_by_price(rating_service, sample_shipment):
 async def test_rates_include_service_details(rating_service, sample_shipment):
     """Test that rates include necessary service details."""
     rates = await rating_service.get_rates(sample_shipment)
-    
+
     for rate in rates:
         assert rate.carrier is not None
         assert rate.service is not None

@@ -14,10 +14,10 @@ rating_service = RatingService()
 async def get_shipping_rates(shipment: Shipment):
     """
     Get shipping rates from all carriers.
-    
+
     Retrieves real-time shipping rates from multiple carriers (UPS, FedEx, USPS, DHL)
     for the given shipment details. Returns rates sorted by price (cheapest first).
-    
+
     - **from_address**: Sender's address
     - **to_address**: Recipient's address
     - **package**: Package dimensions and weight

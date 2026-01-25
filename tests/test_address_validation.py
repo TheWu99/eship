@@ -19,11 +19,11 @@ async def test_validate_valid_us_address(address_service):
         city="New York",
         state="NY",
         postal_code="10001",
-        country="US"
+        country="US",
     )
-    
+
     validated, is_valid = await address_service.validate_address(address)
-    
+
     assert is_valid
     assert validated.is_validated
     assert validated.state == "NY"
@@ -40,11 +40,11 @@ async def test_validate_zip_plus_4(address_service):
         city="Los Angeles",
         state="ca",
         postal_code="900011234",
-        country="us"
+        country="us",
     )
-    
+
     validated, is_valid = await address_service.validate_address(address)
-    
+
     assert is_valid
     assert validated.postal_code == "90001-1234"
     assert validated.state == "CA"
@@ -60,11 +60,11 @@ async def test_detect_commercial_address(address_service):
         city="Chicago",
         state="IL",
         postal_code="60601",
-        country="US"
+        country="US",
     )
-    
+
     address_type = await address_service.detect_address_type(address)
-    
+
     assert address_type == AddressType.COMMERCIAL
 
 
@@ -77,9 +77,9 @@ async def test_detect_residential_address(address_service):
         city="Portland",
         state="OR",
         postal_code="97201",
-        country="US"
+        country="US",
     )
-    
+
     address_type = await address_service.detect_address_type(address)
-    
+
     assert address_type == AddressType.RESIDENTIAL
