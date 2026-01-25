@@ -1,0 +1,21 @@
+{
+  "name": "eship",
+  "version": "1.0.0",
+  "description": "Multi-carrier shipping platform with unified API for UPS, FedEx, and DHL",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["shipping", "logistics", "multi-carrier", "ups", "fedex", "dhl"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.13.3",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
+  }
+}
