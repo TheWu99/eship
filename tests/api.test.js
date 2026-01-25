@@ -172,8 +172,11 @@ describe('eShip API Tests', () => {
 
   describe('POST /api/shipping/pickup', () => {
     it('should schedule a pickup', async () => {
+      // Use dynamic date (30 days from now)
+      const futureDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
       const pickupDetails = {
-        date: '2026-01-30',
+        date: futureDate,
         timeWindow: '9:00 AM - 5:00 PM',
         address: {
           street: '123 Main St',
