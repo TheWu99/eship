@@ -7,6 +7,7 @@ from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
+from reportlab.lib.utils import ImageReader
 import qrcode
 
 from ..models import Label, LabelFormat, CarrierType, Shipment
@@ -97,7 +98,9 @@ class LabelGenerationService:
         qr_buffer = BytesIO()
         qr_img.save(qr_buffer, format="PNG")
         qr_buffer.seek(0)
-        c.drawImage(qr_buffer, 2.5 * inch, 4 * inch, width=1.25 * inch, height=1.25 * inch)
+        c.drawImage(
+            ImageReader(qr_buffer), 2.5 * inch, 4 * inch, width=1.25 * inch, height=1.25 * inch
+        )
 
         # From address
         c.setFont("Helvetica-Bold", 10)
