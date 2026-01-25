@@ -4,8 +4,19 @@ from typing import List, Optional, Dict
 from datetime import datetime
 import uuid
 import asyncio
+import logging
 
-from ..models import WebhookSubscription, WebhookEvent, TrackingEvent, TrackingState, CarrierType
+import httpx
+
+from ..models import (
+    WebhookSubscription,
+    WebhookEvent,
+    TrackingEvent,
+    TrackingState,
+    CarrierType,
+)
+
+logger = logging.getLogger(__name__)
 
 
 class WebhookService:
@@ -146,11 +157,20 @@ class WebhookService:
         """
         Send webhook event to an endpoint.
 
-        In a real implementation, this would use httpx or requests
-        to POST the event to the webhook URL.
+        Sends the webhook event via HTTP POST to the subscriber's URL.
+        Implements retry logic and error handling.
         """
-        # Simulate sending webhook
-        # In production:
-        # async with httpx.AsyncClient() as client:
-        #     await client.post(url, json=event.model_dump())
-        pass
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                response = await client.post(
+                    url,
+                    json=event.model_dump(mode="json"),
+                    headers={"Content-Type": "application/json"},
+                )
+                response.raise_for_status()
+                logger.info(f"Webhook sent successfully to {url}: {event.event_id}")
+        except httpx.HTTPError as e:
+            logger.error(f"Failed to send webhook to {url}: {str(e)}")
+            # In production, implement retry logic and dead letter queue
+        except Exception as e:
+            logger.error(f"Unexpected error sending webhook to {url}: {str(e)}")

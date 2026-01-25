@@ -172,7 +172,7 @@ class TrackingService:
                 TrackingState.DELIVERED: "Delivered",
             },
             CarrierType.DHL: {
-                TrackingState.PRE_TRANSIT: "transit",
+                TrackingState.PRE_TRANSIT: "pre-transit",
                 TrackingState.IN_TRANSIT: "transit",
                 TrackingState.OUT_FOR_DELIVERY: "delivery",
                 TrackingState.DELIVERED: "delivered",

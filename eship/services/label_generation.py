@@ -169,15 +169,31 @@ class LabelGenerationService:
         draw = ImageDraw.Draw(img)
 
         # Try to use a basic font, fall back to default if not available
+        # Try common font paths for different operating systems
+        font_paths = [
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",  # Linux
+            "/System/Library/Fonts/Helvetica.ttc",  # macOS
+            "C:\\Windows\\Fonts\\arial.ttf",  # Windows
+        ]
+
         try:
-            title_font = ImageFont.truetype(
-                "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 32
-            )
-            header_font = ImageFont.truetype(
-                "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20
-            )
-            body_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
-            small_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14)
+            # Try to find available font
+            font_path = None
+            for path in font_paths:
+                try:
+                    ImageFont.truetype(path, 12)
+                    font_path = path
+                    break
+                except Exception:
+                    continue
+
+            if font_path:
+                title_font = ImageFont.truetype(font_path, 32)
+                header_font = ImageFont.truetype(font_path, 20)
+                body_font = ImageFont.truetype(font_path, 18)
+                small_font = ImageFont.truetype(font_path, 14)
+            else:
+                raise Exception("No TrueType fonts found")
         except Exception:
             title_font = header_font = body_font = small_font = ImageFont.load_default()
 
