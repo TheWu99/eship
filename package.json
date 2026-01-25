@@ -1,6 +1,18 @@
 {
   "name": "eship",
   "version": "1.0.0",
+  "description": "Advanced Shipping Management Platform with AI-driven rate shopping, cartonization, insurance, returns, pickups, and freight capabilities",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "tsc --noEmit",
+    "example:rate-shopping": "ts-node examples/rate-shopping-example.ts",
+    "example:cartonization": "ts-node examples/cartonization-example.ts",
+    "example:freight": "ts-node examples/freight-example.ts",
+    "example:workflow": "ts-node examples/complete-workflow.ts"
   "description": "E-commerce shipping platform with sandbox, monetization, billing, routing and POD features",
   "main": "dist/index.js",
   "scripts": {
@@ -34,6 +46,23 @@
   "keywords": [
     "shipping",
     "logistics",
+    "freight",
+    "ltl",
+    "cartonization",
+    "rate-shopping",
+    "insurance",
+    "returns",
+    "manifesting"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.10",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
     "multi-carrier",
     "ups",
     "fedex",
