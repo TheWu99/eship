@@ -1,6 +1,144 @@
 # eShip - Advanced Shipping Management Platform
 
-A comprehensive TypeScript/Node.js platform providing advanced shipping management features including AI-driven rate shopping, intelligent cartonization, insurance management, returns portal, pickup scheduling, and LTL/freight capabilities.
+A comprehensive enterprise shipping platform providing advanced shipping management features including AI-driven rate shopping, intelligent cartonization, insurance management, returns portal, pickup scheduling, and LTL/freight capabilities.
+
+## 🛠 Technology Stack
+
+### Development Environment
+- **IDE**: Visual Studio Code (VS Code)
+- **Version Control**: Git
+
+### Backend
+- **Framework**: Spring Boot 3.5.10 (Latest)
+- **Language**: Java 17
+- **Build Tool**: Maven
+- **Security**: Spring Security with JWT Authentication
+- **ORM**: Spring Data JPA with Hibernate
+
+### Frontend
+- **Language**: TypeScript
+- **Runtime**: Node.js
+- **Package Manager**: npm
+
+### Database
+- **RDBMS**: PostgreSQL 16
+- **Connection**: JDBC Driver for PostgreSQL
+
+### Key Features
+- **Account Management**: User registration, authentication, and profile management
+- **Account Authorization**: JWT-based authentication with role-based access control (RBAC)
+- **Roles**: USER, ADMIN
+- **Password Encryption**: BCrypt
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+- **Java 17** or higher
+- **Maven 3.6+**
+- **Node.js 16+** and npm
+- **PostgreSQL 16**
+- **Visual Studio Code** (recommended)
+
+## 🚀 Quick Start
+
+### 1. Database Setup
+
+Create a PostgreSQL database:
+```sql
+CREATE DATABASE eship;
+```
+
+### 2. Configure Application
+
+Copy `.env.example` to `.env` and update the database credentials:
+```bash
+cp .env.example .env
+```
+
+Update `src/main/resources/application.properties` if needed:
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/eship
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+```
+
+### 3. Build and Run Backend (Spring Boot)
+
+```bash
+# Install dependencies and build
+mvn clean install
+
+# Run the application
+mvn spring-boot:run
+```
+
+The backend will start on `http://localhost:8080`
+
+### 4. Install Frontend Dependencies
+
+```bash
+npm install
+```
+
+### 5. Build TypeScript
+
+```bash
+npm run build
+```
+
+## 🔐 Authentication API
+
+### Register a New User
+
+```bash
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
+
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "roles": ["USER"]
+}
+```
+
+### Login
+
+```bash
+POST http://localhost:8080/api/auth/signin
+Content-Type: application/json
+
+{
+  "username": "john_doe",
+  "password": "password123"
+}
+```
+
+Response:
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "type": "Bearer",
+  "id": 1,
+  "username": "john_doe",
+  "email": "john@example.com",
+  "roles": ["ROLE_USER"]
+}
+```
+
+### Get Current User
+
+```bash
+GET http://localhost:8080/api/users/me
+Authorization: Bearer <your-jwt-token>
+```
+
+### Get All Users (Admin Only)
+
+```bash
+GET http://localhost:8080/api/users
+Authorization: Bearer <admin-jwt-token>
+```
 
 ## Features
 

@@ -1,0 +1,68 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Debug Spring Boot Application",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.thewu.eship.EshipApplication",
+      "projectName": "eship",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug Spring Boot Tests",
+      "request": "launch",
+      "mainClass": "com.thewu.eship.EshipApplicationTests",
+      "projectName": "eship",
+      "args": ""
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug TypeScript",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${workspaceFolder}/src/index.ts"
+      ],
+      "cwd": "${workspaceFolder}",
+      "protocol": "inspector",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Jest Tests",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "--runInBand",
+        "--no-cache",
+        "--watchAll=false"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "python",
+      "request": "launch",
+      "name": "Debug FastAPI",
+      "module": "uvicorn",
+      "args": [
+        "eship.main:app",
+        "--reload",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000"
+      ],
+      "jinja": true,
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
