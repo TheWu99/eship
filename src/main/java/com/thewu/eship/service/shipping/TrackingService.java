@@ -61,7 +61,7 @@ public class TrackingService {
         tracking.setTrackingNumber(trackingNumber);
         tracking.setCarrier(carrier != null ? carrier : CarrierType.UPS);
         tracking.setCurrentStatus(TrackingState.IN_TRANSIT);
-        
+
         // Create mock events
         List<TrackingEventDTO> events = new ArrayList<>();
         events.add(createEvent(
