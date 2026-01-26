@@ -163,7 +163,7 @@ public class UpsRatingService {
 
         upsAddress.setCity(address.getCity());
         upsAddress.setStateProvinceCode(address.getState());
-        upsAddress.setPostalCode(address.getZipCode());
+        upsAddress.setPostalCode(address.getPostalCode());
         upsAddress.setCountryCode(address.getCountry() != null ? address.getCountry() : "US");
 
         return upsAddress;
@@ -225,20 +225,13 @@ public class UpsRatingService {
 
                 // Set service
                 if (ratedShipment.getService() != null) {
-                    rate.setService(mapUpsServiceCodeToInternal(ratedShipment.getService().getCode()));
-                    rate.setServiceDescription(ratedShipment.getService().getDescription());
+                    rate.setService(ratedShipment.getService().getDescription());
                 }
-
+                
                 // Set pricing
                 if (ratedShipment.getTotalCharges() != null) {
-                    rate.setTotalCost(new BigDecimal(ratedShipment.getTotalCharges().getMonetaryValue()));
+                    rate.setRate(Double.parseDouble(ratedShipment.getTotalCharges().getMonetaryValue()));
                     rate.setCurrency(ratedShipment.getTotalCharges().getCurrencyCode());
-                }
-
-                if (ratedShipment.getBaseServiceCharge() != null) {
-                    rate.setBaseRate(new BigDecimal(ratedShipment.getBaseServiceCharge().getMonetaryValue()));
-                }
-
                 // Set delivery time
                 if (ratedShipment.getTimeInTransit() != null &&
                         ratedShipment.getTimeInTransit().getServiceSummary() != null &&
@@ -249,17 +242,8 @@ public class UpsRatingService {
                     if (transitDays != null) {
                         rate.setDeliveryDays(Integer.parseInt(transitDays));
                     }
-
-                    UpsRateResponse.Arrival arrival = ratedShipment.getTimeInTransit().getServiceSummary()
-                            .getEstimatedArrival().getArrival();
-                    if (arrival != null && arrival.getDate() != null) {
-                        rate.setEstimatedDeliveryDate(arrival.getDate());
-                    }
-                }
-
-                // Set guaranteed delivery if available
-                if (ratedShipment.getGuaranteedDelivery() != null) {
-                    rate.setGuaranteedDelivery(true);
+                    
+                    // Delivery date information available but not stored in basic RateDTO
                 }
 
                 rates.add(rate);

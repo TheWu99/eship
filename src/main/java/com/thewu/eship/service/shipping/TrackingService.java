@@ -59,19 +59,11 @@ public class TrackingService {
     private ShipmentTrackingDTO getMockTracking(String trackingNumber, CarrierType carrier) {
         ShipmentTrackingDTO tracking = new ShipmentTrackingDTO();
         tracking.setTrackingNumber(trackingNumber);
-        tracking.setCarrier(carrier != null ? carrier.name() : "UNKNOWN");
-        tracking.setState(TrackingState.IN_TRANSIT);
-        tracking.setStatus("In Transit");
-
+        tracking.setCarrier(carrier != null ? carrier : CarrierType.UPS);
+        tracking.setCurrentStatus(TrackingState.IN_TRANSIT);
+        
+        // Create mock events
         List<TrackingEventDTO> events = new ArrayList<>();
-
-        // Mock events
-        events.add(createEvent(
-                LocalDateTime.now().minusDays(3),
-                TrackingState.PRE_TRANSIT,
-                "Shipping label created",
-                "Origin facility"));
-
         events.add(createEvent(
                 LocalDateTime.now().minusDays(2),
                 TrackingState.IN_TRANSIT,
@@ -93,7 +85,7 @@ public class TrackingService {
         tracking.setEvents(events);
         tracking.setEstimatedDelivery(LocalDateTime.now().plusDays(1));
 
-        return Optional.of(tracking);
+        return tracking;
     }
 
     /**

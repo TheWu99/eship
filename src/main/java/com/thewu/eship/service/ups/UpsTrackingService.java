@@ -85,7 +85,7 @@ public class UpsTrackingService {
     private ShipmentTrackingDTO convertUpsTrackingToDTO(String trackingNumber, UpsTrackingResponse upsResponse) {
         ShipmentTrackingDTO tracking = new ShipmentTrackingDTO();
         tracking.setTrackingNumber(trackingNumber);
-        tracking.setCarrier("UPS");
+        tracking.setCarrier(CarrierType.UPS);
 
         if (upsResponse.getTrackResponse() != null &&
                 upsResponse.getTrackResponse().getShipment() != null &&
@@ -98,37 +98,28 @@ public class UpsTrackingService {
 
                 // Set current status
                 if (pkg.getCurrentStatus() != null) {
-                    tracking.setStatus(pkg.getCurrentStatus().getDescription());
-                    tracking.setState(mapUpsStatusToState(pkg.getCurrentStatus().getCode()));
-                }
-
-                // Set service
-                if (pkg.getService() != null) {
-                    tracking.setService(pkg.getService().getDescription());
-                }
-
+                    tracking.setCurrentStatus(mapUpsStatusToState(pkg.getCurrentStatus().getCode()));
                 // Set delivery information
                 if (pkg.getDeliveryDate() != null && !pkg.getDeliveryDate().isEmpty()) {
                     UpsTrackingResponse.DeliveryDate deliveryDate = pkg.getDeliveryDate().get(0);
-                    tracking.setEstimatedDelivery(deliveryDate.getDate());
-                }
-
-                if (pkg.getDeliveryTime() != null) {
-                    tracking.setDeliveryTime(pkg.getDeliveryTime().getStartTime());
-                }
-
-                // Set tracking events
+                    try {
+                        String dateStr = deliveryDate.getDate();
+                        if (dateStr != null && dateStr.length() >= 8) {
+                            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd");
+                            java.time.LocalDate date = java.time.LocalDate.parse(dateStr, formatter);
+                            tracking.setEstimatedDelivery(date.atStartOfDay());
+                        }
+                    } catch (Exception e) {
+                        log.warn("Failed to parse delivery date: {}", deliveryDate.getDate());
+                    }
                 List<TrackingEventDTO> events = new ArrayList<>();
                 if (pkg.getActivity() != null) {
                     for (UpsTrackingResponse.Activity activity : pkg.getActivity()) {
                         TrackingEventDTO event = new TrackingEventDTO();
 
                         if (activity.getStatus() != null) {
-                            event.setStatus(activity.getStatus().getDescription());
-                            event.setState(mapUpsStatusToState(activity.getStatus().getCode()));
-                        }
-
-                        // Combine date and time
+                            event.setStatus(mapUpsStatusToState(activity.getStatus().getCode()));
+                            event.setMessage(activity.getStatus().getDescription());
                         if (activity.getDate() != null && activity.getTime() != null) {
                             try {
                                 String dateTimeStr = activity.getDate() + " " + activity.getTime();
@@ -158,11 +149,10 @@ public class UpsTrackingService {
                 tracking.setEvents(events);
             }
         }
-
-        tracking.setLastUpdated(LocalDateTime.now());
+        
         return tracking;
     }
-
+    
     /**
      * Map UPS status codes to our internal TrackingState enum
      */
@@ -189,10 +179,8 @@ public class UpsTrackingService {
     private ShipmentTrackingDTO createErrorTracking(String trackingNumber, String errorMessage) {
         ShipmentTrackingDTO tracking = new ShipmentTrackingDTO();
         tracking.setTrackingNumber(trackingNumber);
-        tracking.setCarrier("UPS");
-        tracking.setStatus(errorMessage);
-        tracking.setState(TrackingState.UNKNOWN);
-        tracking.setLastUpdated(LocalDateTime.now());
+        tracking.setCarrier(CarrierType.UPS);
+        tracking.setCurrentStatus(TrackingState.UNKNOWN);
         tracking.setEvents(new ArrayList<>());
         return tracking;
     }

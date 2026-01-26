@@ -11,5 +11,7 @@ public enum TrackingState {
     RETURNED,
     FAILED,
     CANCELLED,
-    EXCEPTION
+    EXCEPTION,
+    MANIFEST,
+    UNKNOWN
 }
