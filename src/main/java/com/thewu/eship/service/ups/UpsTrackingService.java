@@ -1,6 +1,7 @@
 package com.thewu.eship.service.ups;
 
 import com.thewu.eship.config.UpsApiConfig;
+import com.thewu.eship.dto.shipping.CarrierType;
 import com.thewu.eship.dto.shipping.ShipmentTrackingDTO;
 import com.thewu.eship.dto.shipping.TrackingEventDTO;
 import com.thewu.eship.dto.shipping.TrackingState;
@@ -99,19 +100,24 @@ public class UpsTrackingService {
                 // Set current status
                 if (pkg.getCurrentStatus() != null) {
                     tracking.setCurrentStatus(mapUpsStatusToState(pkg.getCurrentStatus().getCode()));
+                }
+
                 // Set delivery information
                 if (pkg.getDeliveryDate() != null && !pkg.getDeliveryDate().isEmpty()) {
                     UpsTrackingResponse.DeliveryDate deliveryDate = pkg.getDeliveryDate().get(0);
                     try {
                         String dateStr = deliveryDate.getDate();
                         if (dateStr != null && dateStr.length() >= 8) {
-                            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd");
+                            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
+                                    .ofPattern("yyyyMMdd");
                             java.time.LocalDate date = java.time.LocalDate.parse(dateStr, formatter);
                             tracking.setEstimatedDelivery(date.atStartOfDay());
                         }
                     } catch (Exception e) {
                         log.warn("Failed to parse delivery date: {}", deliveryDate.getDate());
                     }
+                }
+
                 List<TrackingEventDTO> events = new ArrayList<>();
                 if (pkg.getActivity() != null) {
                     for (UpsTrackingResponse.Activity activity : pkg.getActivity()) {
@@ -120,6 +126,8 @@ public class UpsTrackingService {
                         if (activity.getStatus() != null) {
                             event.setStatus(mapUpsStatusToState(activity.getStatus().getCode()));
                             event.setMessage(activity.getStatus().getDescription());
+                        }
+
                         if (activity.getDate() != null && activity.getTime() != null) {
                             try {
                                 String dateTimeStr = activity.getDate() + " " + activity.getTime();
@@ -149,7 +157,7 @@ public class UpsTrackingService {
                 tracking.setEvents(events);
             }
         }
-        
+
         return tracking;
     }
 
@@ -161,16 +169,23 @@ public class UpsTrackingService {
             return TrackingState.UNKNOWN;
 
         // UPS status codes mapping
-        return switch (upsStatusCode.toUpperCase()) {
-            case "MP" -> TrackingState.MANIFEST; // Manifest Pickup
-            case "I" -> TrackingState.IN_TRANSIT; // In Transit
-            case "X" -> TrackingState.EXCEPTION; // Exception
-            case "D" -> TrackingState.DELIVERED; // Delivered
-            case "P" -> TrackingState.IN_TRANSIT; // Pickup
-            case "M" -> TrackingState.MANIFEST; // Billing Information Received
-            case "RS" -> TrackingState.RETURNED; // Returned to Sender
-            default -> TrackingState.UNKNOWN;
-        };
+        switch (upsStatusCode.toUpperCase()) {
+            case "MP":
+                return TrackingState.MANIFEST; // Manifest Pickup
+            case "I":
+            case "P":
+                return TrackingState.IN_TRANSIT; // In Transit / Pickup
+            case "X":
+                return TrackingState.EXCEPTION; // Exception
+            case "D":
+                return TrackingState.DELIVERED; // Delivered
+            case "M":
+                return TrackingState.MANIFEST; // Billing Information Received
+            case "RS":
+                return TrackingState.RETURNED; // Returned to Sender
+            default:
+                return TrackingState.UNKNOWN;
+        }
     }
 
     /**

@@ -227,11 +227,13 @@ public class UpsRatingService {
                 if (ratedShipment.getService() != null) {
                     rate.setService(ratedShipment.getService().getDescription());
                 }
-                
+
                 // Set pricing
                 if (ratedShipment.getTotalCharges() != null) {
                     rate.setRate(Double.parseDouble(ratedShipment.getTotalCharges().getMonetaryValue()));
                     rate.setCurrency(ratedShipment.getTotalCharges().getCurrencyCode());
+                }
+
                 // Set delivery time
                 if (ratedShipment.getTimeInTransit() != null &&
                         ratedShipment.getTimeInTransit().getServiceSummary() != null &&
@@ -242,7 +244,7 @@ public class UpsRatingService {
                     if (transitDays != null) {
                         rate.setDeliveryDays(Integer.parseInt(transitDays));
                     }
-                    
+
                     // Delivery date information available but not stored in basic RateDTO
                 }
 
@@ -261,46 +263,71 @@ public class UpsRatingService {
         // 01 = Next Day Air, 02 = 2nd Day Air, 03 = Ground
         // 12 = 3 Day Select, 13 = Next Day Air Saver, 14 = Next Day Air Early
         // 59 = 2nd Day Air A.M., 65 = UPS Saver (Domestic)
-        return switch (serviceCode.toUpperCase()) {
-            case "GROUND" -> "03";
-            case "EXPRESS" -> "01";
-            case "2DAY" -> "02";
-            case "3DAY" -> "12";
-            case "NEXT_DAY" -> "01";
-            case "NEXT_DAY_SAVER" -> "13";
-            case "NEXT_DAY_EARLY" -> "14";
-            case "2DAY_AM" -> "59";
-            default -> "03"; // Default to Ground
-        };
+        switch (serviceCode.toUpperCase()) {
+            case "GROUND":
+                return "03";
+            case "EXPRESS":
+            case "NEXT_DAY":
+                return "01";
+            case "2DAY":
+                return "02";
+            case "3DAY":
+                return "12";
+            case "NEXT_DAY_SAVER":
+                return "13";
+            case "NEXT_DAY_EARLY":
+                return "14";
+            case "2DAY_AM":
+                return "59";
+            default:
+                return "03"; // Default to Ground
+        }
     }
 
     /**
      * Map UPS service codes to our internal codes
      */
     private String mapUpsServiceCodeToInternal(String upsCode) {
-        return switch (upsCode) {
-            case "01", "14" -> "NEXT_DAY";
-            case "02", "59" -> "2DAY";
-            case "03" -> "GROUND";
-            case "12" -> "3DAY";
-            case "13" -> "NEXT_DAY_SAVER";
-            default -> "GROUND";
-        };
+        switch (upsCode) {
+            case "01":
+            case "14":
+                return "NEXT_DAY";
+            case "02":
+            case "59":
+                return "2DAY";
+            case "03":
+                return "GROUND";
+            case "12":
+                return "3DAY";
+            case "13":
+                return "NEXT_DAY_SAVER";
+            default:
+                return "GROUND";
+        }
     }
 
     /**
      * Get service description
      */
     private String getServiceDescription(String serviceCode) {
-        return switch (serviceCode.toUpperCase()) {
-            case "GROUND" -> "UPS Ground";
-            case "EXPRESS", "NEXT_DAY" -> "UPS Next Day Air";
-            case "2DAY" -> "UPS 2nd Day Air";
-            case "3DAY" -> "UPS 3 Day Select";
-            case "NEXT_DAY_SAVER" -> "UPS Next Day Air Saver";
-            case "NEXT_DAY_EARLY" -> "UPS Next Day Air Early";
-            case "2DAY_AM" -> "UPS 2nd Day Air A.M.";
-            default -> "UPS Ground";
-        };
+        switch (serviceCode.toUpperCase()) {
+            case "GROUND":
+                return "UPS Ground";
+            case "EXPRESS":
+            case "NEXT_DAY":
+                return "UPS Next Day Air";
+            case "2DAY":
+                return "UPS 2nd Day Air";
+            case "3DAY":
+                return "UPS 3 Day Select";
+            case "NEXT_DAY_SAVER":
+                return "UPS Next Day Air Saver";
+            case "NEXT_DAY_EARLY":
+                return "UPS Next Day Air Early";
+            case "2DAY_AM":
+                return "UPS 2nd Day Air A.M.";
+            default:
+                return "UPS Ground";
+        }
     }
 }
