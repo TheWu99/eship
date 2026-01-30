@@ -65,13 +65,12 @@ public class LabelGenerationServiceTest {
     @DisplayName("Test generate UPS label in PDF format")
     void testGenerateUpsLabelPdf() {
         String trackingNumber = labelService.generateTrackingNumber(CarrierType.UPS);
-        
+
         LabelDTO label = labelService.generateLabel(
-            testShipment, 
-            trackingNumber, 
-            CarrierType.UPS, 
-            LabelFormat.PDF
-        );
+                testShipment,
+                trackingNumber,
+                CarrierType.UPS,
+                LabelFormat.PDF);
 
         assertNotNull(label, "Label should not be null");
         assertEquals(trackingNumber, label.getTrackingNumber());
@@ -92,13 +91,12 @@ public class LabelGenerationServiceTest {
     @DisplayName("Test generate FedEx label in PDF format")
     void testGenerateFedexLabelPdf() {
         String trackingNumber = labelService.generateTrackingNumber(CarrierType.FEDEX);
-        
+
         LabelDTO label = labelService.generateLabel(
-            testShipment, 
-            trackingNumber, 
-            CarrierType.FEDEX, 
-            LabelFormat.PDF
-        );
+                testShipment,
+                trackingNumber,
+                CarrierType.FEDEX,
+                LabelFormat.PDF);
 
         assertNotNull(label);
         assertEquals(trackingNumber, label.getTrackingNumber());
@@ -116,13 +114,12 @@ public class LabelGenerationServiceTest {
     @DisplayName("Test generate DHL label in PDF format")
     void testGenerateDhlLabelPdf() {
         String trackingNumber = labelService.generateTrackingNumber(CarrierType.DHL);
-        
+
         LabelDTO label = labelService.generateLabel(
-            testShipment, 
-            trackingNumber, 
-            CarrierType.DHL, 
-            LabelFormat.PDF
-        );
+                testShipment,
+                trackingNumber,
+                CarrierType.DHL,
+                LabelFormat.PDF);
 
         assertNotNull(label);
         assertEquals(trackingNumber, label.getTrackingNumber());
@@ -140,13 +137,12 @@ public class LabelGenerationServiceTest {
     @DisplayName("Test generate label in ZPL format")
     void testGenerateLabelZpl() {
         String trackingNumber = labelService.generateTrackingNumber(CarrierType.UPS);
-        
+
         LabelDTO label = labelService.generateLabel(
-            testShipment, 
-            trackingNumber, 
-            CarrierType.UPS, 
-            LabelFormat.ZPL
-        );
+                testShipment,
+                trackingNumber,
+                CarrierType.UPS,
+                LabelFormat.ZPL);
 
         assertNotNull(label);
         assertEquals(LabelFormat.ZPL, label.getFormat());
@@ -166,13 +162,12 @@ public class LabelGenerationServiceTest {
     @DisplayName("Test generate label in PNG format")
     void testGenerateLabelPng() {
         String trackingNumber = labelService.generateTrackingNumber(CarrierType.FEDEX);
-        
+
         LabelDTO label = labelService.generateLabel(
-            testShipment, 
-            trackingNumber, 
-            CarrierType.FEDEX, 
-            LabelFormat.PNG
-        );
+                testShipment,
+                trackingNumber,
+                CarrierType.FEDEX,
+                LabelFormat.PNG);
 
         assertNotNull(label);
         assertEquals(LabelFormat.PNG, label.getFormat());
@@ -188,15 +183,16 @@ public class LabelGenerationServiceTest {
     @DisplayName("Test tracking number generation for all carriers")
     void testTrackingNumberGeneration() {
         System.out.println("\n=== TRACKING NUMBER GENERATION TEST ===");
-        
-        for (CarrierType carrier : Arrays.asList(CarrierType.UPS, CarrierType.FEDEX, CarrierType.DHL, CarrierType.USPS)) {
+
+        for (CarrierType carrier : Arrays.asList(CarrierType.UPS, CarrierType.FEDEX, CarrierType.DHL,
+                CarrierType.USPS)) {
             String trackingNumber = labelService.generateTrackingNumber(carrier);
-            
+
             assertNotNull(trackingNumber, "Tracking number should not be null for " + carrier);
             assertFalse(trackingNumber.isEmpty(), "Tracking number should not be empty for " + carrier);
-            
+
             System.out.println(carrier + " Tracking #: " + trackingNumber);
-            
+
             // Verify format patterns
             switch (carrier) {
                 case UPS:
@@ -232,7 +228,7 @@ public class LabelGenerationServiceTest {
         CustomsFormDTO customs = new CustomsFormDTO();
         customs.setContentsType("MERCHANDISE");
         customs.setContentsExplanation("Electronics");
-        
+
         CustomsItemDTO item = new CustomsItemDTO();
         item.setDescription("Smartphone");
         item.setQuantity(1);
@@ -240,18 +236,17 @@ public class LabelGenerationServiceTest {
         item.setWeight(5.0);
         item.setOriginCountry("US");
         item.setHsCode("8517.12.00");
-        
+
         customs.setItems(Arrays.asList(item));
         testShipment.setCustoms(customs);
 
         String trackingNumber = labelService.generateTrackingNumber(CarrierType.UPS);
-        
+
         LabelDTO label = labelService.generateLabel(
-            testShipment, 
-            trackingNumber, 
-            CarrierType.UPS, 
-            LabelFormat.PDF
-        );
+                testShipment,
+                trackingNumber,
+                CarrierType.UPS,
+                LabelFormat.PDF);
 
         assertNotNull(label);
         assertEquals(trackingNumber, label.getTrackingNumber());
@@ -268,21 +263,20 @@ public class LabelGenerationServiceTest {
     @DisplayName("Test multiple labels generation")
     void testMultipleLabelsGeneration() {
         System.out.println("\n=== BATCH LABEL GENERATION TEST ===");
-        
+
         for (int i = 1; i <= 5; i++) {
             String trackingNumber = labelService.generateTrackingNumber(CarrierType.UPS);
-            
+
             LabelDTO label = labelService.generateLabel(
-                testShipment, 
-                trackingNumber, 
-                CarrierType.UPS, 
-                LabelFormat.PDF
-            );
+                    testShipment,
+                    trackingNumber,
+                    CarrierType.UPS,
+                    LabelFormat.PDF);
 
             assertNotNull(label);
             System.out.println("Label " + i + " - Tracking #: " + label.getTrackingNumber());
         }
-        
+
         System.out.println("✓ Successfully generated 5 labels");
     }
 
@@ -290,13 +284,12 @@ public class LabelGenerationServiceTest {
     @DisplayName("Test label contains essential information")
     void testLabelContainsEssentialInfo() {
         String trackingNumber = labelService.generateTrackingNumber(CarrierType.UPS);
-        
+
         LabelDTO label = labelService.generateLabel(
-            testShipment, 
-            trackingNumber, 
-            CarrierType.UPS, 
-            LabelFormat.PDF
-        );
+                testShipment,
+                trackingNumber,
+                CarrierType.UPS,
+                LabelFormat.PDF);
 
         assertNotNull(label.getTrackingNumber(), "Should have tracking number");
         assertNotNull(label.getCarrier(), "Should have carrier");
@@ -316,20 +309,19 @@ public class LabelGenerationServiceTest {
     @DisplayName("Test all carriers can generate labels")
     void testAllCarriersLabelGeneration() {
         System.out.println("\n=== ALL CARRIERS LABEL GENERATION TEST ===");
-        
+
         for (CarrierType carrier : Arrays.asList(CarrierType.UPS, CarrierType.FEDEX, CarrierType.DHL)) {
             String trackingNumber = labelService.generateTrackingNumber(carrier);
-            
+
             LabelDTO label = labelService.generateLabel(
-                testShipment, 
-                trackingNumber, 
-                carrier, 
-                LabelFormat.PDF
-            );
+                    testShipment,
+                    trackingNumber,
+                    carrier,
+                    LabelFormat.PDF);
 
             assertNotNull(label, carrier + " should generate label");
             assertEquals(carrier, label.getCarrier());
-            
+
             System.out.println(carrier + " ✓ Label generated: " + label.getTrackingNumber());
         }
     }

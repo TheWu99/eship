@@ -116,7 +116,7 @@ public class ShippingIntegrationTest {
         String response = result.getResponse().getContentAsString();
         System.out.println("\n=== UPS RATES TEST ===");
         System.out.println(response);
-        
+
         // Verify we have UPS rates in the response
         assert response.contains("UPS") || response.contains("ups");
     }
@@ -137,7 +137,7 @@ public class ShippingIntegrationTest {
         String response = result.getResponse().getContentAsString();
         System.out.println("\n=== FEDEX RATES TEST ===");
         System.out.println(response);
-        
+
         // Verify we have FedEx rates in the response
         assert response.contains("FEDEX") || response.contains("fedex");
     }
@@ -158,7 +158,7 @@ public class ShippingIntegrationTest {
         String response = result.getResponse().getContentAsString();
         System.out.println("\n=== DHL RATES TEST ===");
         System.out.println(response);
-        
+
         // Verify we have DHL rates in the response
         assert response.contains("DHL") || response.contains("dhl");
     }

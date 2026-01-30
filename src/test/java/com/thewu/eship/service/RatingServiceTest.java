@@ -68,15 +68,15 @@ public class RatingServiceTest {
 
         assertNotNull(rates, "Rates should not be null");
         assertFalse(rates.isEmpty(), "Should return at least one rate");
-        
+
         // Check that we have rates from multiple carriers
         System.out.println("\n=== RATE COMPARISON TEST ===");
         System.out.println("Total rates received: " + rates.size());
-        
+
         for (RateDTO rate : rates) {
             System.out.println(String.format("%s - %s: $%.2f (Transit: %d days)",
-                rate.getCarrier(), rate.getService(), rate.getRate(), rate.getDeliveryDays()));
-            
+                    rate.getCarrier(), rate.getService(), rate.getRate(), rate.getDeliveryDays()));
+
             assertNotNull(rate.getCarrier(), "Carrier should not be null");
             assertNotNull(rate.getService(), "Service should not be null");
             assertTrue(rate.getRate() > 0, "Rate should be positive");
@@ -94,7 +94,7 @@ public class RatingServiceTest {
         // Verify rates are sorted (cheapest first)
         for (int i = 0; i < rates.size() - 1; i++) {
             assertTrue(rates.get(i).getRate() <= rates.get(i + 1).getRate(),
-                "Rates should be sorted by price (cheapest first)");
+                    "Rates should be sorted by price (cheapest first)");
         }
 
         System.out.println("\n=== SORTED RATES TEST ===");
@@ -107,57 +107,57 @@ public class RatingServiceTest {
     @DisplayName("Test UPS rates with different services")
     void testUpsServiceVariety() {
         List<RateDTO> rates = ratingService.getRates(testShipment);
-        
+
         long upsRates = rates.stream()
-            .filter(r -> r.getCarrier() == CarrierType.UPS)
-            .count();
+                .filter(r -> r.getCarrier() == CarrierType.UPS)
+                .count();
 
         assertTrue(upsRates > 0, "Should have UPS rates");
 
         System.out.println("\n=== UPS SERVICE VARIETY TEST ===");
         System.out.println("UPS services available: " + upsRates);
-        
+
         rates.stream()
-            .filter(r -> r.getCarrier() == CarrierType.UPS)
-            .forEach(r -> System.out.println("  - " + r.getService() + ": $" + r.getRate()));
+                .filter(r -> r.getCarrier() == CarrierType.UPS)
+                .forEach(r -> System.out.println("  - " + r.getService() + ": $" + r.getRate()));
     }
 
     @Test
     @DisplayName("Test FedEx rates with different services")
     void testFedexServiceVariety() {
         List<RateDTO> rates = ratingService.getRates(testShipment);
-        
+
         long fedexRates = rates.stream()
-            .filter(r -> r.getCarrier() == CarrierType.FEDEX)
-            .count();
+                .filter(r -> r.getCarrier() == CarrierType.FEDEX)
+                .count();
 
         assertTrue(fedexRates > 0, "Should have FedEx rates");
 
         System.out.println("\n=== FEDEX SERVICE VARIETY TEST ===");
         System.out.println("FedEx services available: " + fedexRates);
-        
+
         rates.stream()
-            .filter(r -> r.getCarrier() == CarrierType.FEDEX)
-            .forEach(r -> System.out.println("  - " + r.getService() + ": $" + r.getRate()));
+                .filter(r -> r.getCarrier() == CarrierType.FEDEX)
+                .forEach(r -> System.out.println("  - " + r.getService() + ": $" + r.getRate()));
     }
 
     @Test
     @DisplayName("Test DHL rates available")
     void testDhlRates() {
         List<RateDTO> rates = ratingService.getRates(testShipment);
-        
+
         long dhlRates = rates.stream()
-            .filter(r -> r.getCarrier() == CarrierType.DHL)
-            .count();
+                .filter(r -> r.getCarrier() == CarrierType.DHL)
+                .count();
 
         assertTrue(dhlRates > 0, "Should have DHL rates");
 
         System.out.println("\n=== DHL RATES TEST ===");
         System.out.println("DHL services available: " + dhlRates);
-        
+
         rates.stream()
-            .filter(r -> r.getCarrier() == CarrierType.DHL)
-            .forEach(r -> System.out.println("  - " + r.getService() + ": $" + r.getRate()));
+                .filter(r -> r.getCarrier() == CarrierType.DHL)
+                .forEach(r -> System.out.println("  - " + r.getService() + ": $" + r.getRate()));
     }
 
     @Test
@@ -176,9 +176,9 @@ public class RatingServiceTest {
 
         System.out.println("\n=== INTERNATIONAL RATES TEST ===");
         System.out.println("International rates to Canada: " + rates.size());
-        
+
         rates.forEach(r -> System.out.println(String.format("%s %s: $%.2f",
-            r.getCarrier(), r.getService(), r.getRate())));
+                r.getCarrier(), r.getService(), r.getRate())));
     }
 
     @Test
@@ -193,12 +193,12 @@ public class RatingServiceTest {
         List<RateDTO> rates = ratingService.getRates(testShipment);
 
         assertNotNull(rates, "Should have rates for heavy package");
-        
+
         System.out.println("\n=== HEAVY PACKAGE RATES TEST ===");
         System.out.println("Rates for 100 lb package:");
-        
+
         rates.forEach(r -> System.out.println(String.format("%s %s: $%.2f",
-            r.getCarrier(), r.getService(), r.getRate())));
+                r.getCarrier(), r.getService(), r.getRate())));
     }
 
     @Test
@@ -213,12 +213,12 @@ public class RatingServiceTest {
         List<RateDTO> rates = ratingService.getRates(testShipment);
 
         assertNotNull(rates, "Should have rates for lightweight package");
-        
+
         System.out.println("\n=== LIGHTWEIGHT PACKAGE RATES TEST ===");
         System.out.println("Rates for 1 lb package:");
-        
+
         rates.forEach(r -> System.out.println(String.format("%s %s: $%.2f",
-            r.getCarrier(), r.getService(), r.getRate())));
+                r.getCarrier(), r.getService(), r.getRate())));
     }
 
     @Test
@@ -228,20 +228,20 @@ public class RatingServiceTest {
 
         System.out.println("\n=== CARRIER COMPARISON TEST ===");
         System.out.println("Comparing rates across all carriers:");
-        
+
         // Group by carrier and find cheapest for each
         rates.stream()
-            .collect(java.util.stream.Collectors.groupingBy(RateDTO::getCarrier))
-            .forEach((carrier, carrierRates) -> {
-                RateDTO cheapest = carrierRates.stream()
-                    .min(java.util.Comparator.comparing(RateDTO::getRate))
-                    .orElse(null);
-                
-                if (cheapest != null) {
-                    System.out.println(String.format("%s cheapest: %s at $%.2f",
-                        carrier, cheapest.getService(), cheapest.getRate()));
-                }
-            });
+                .collect(java.util.stream.Collectors.groupingBy(RateDTO::getCarrier))
+                .forEach((carrier, carrierRates) -> {
+                    RateDTO cheapest = carrierRates.stream()
+                            .min(java.util.Comparator.comparing(RateDTO::getRate))
+                            .orElse(null);
+
+                    if (cheapest != null) {
+                        System.out.println(String.format("%s cheapest: %s at $%.2f",
+                                carrier, cheapest.getService(), cheapest.getRate()));
+                    }
+                });
     }
 
     @Test

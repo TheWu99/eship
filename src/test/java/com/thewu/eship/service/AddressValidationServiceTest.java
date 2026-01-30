@@ -39,11 +39,13 @@ public class AddressValidationServiceTest {
         System.out.println("\n=== US RESIDENTIAL ADDRESS VALIDATION TEST ===");
         System.out.println("Original: " + address.getStreet1() + ", " + address.getCity());
         System.out.println("Valid: " + response.isValid());
-        System.out.println("Standardized: " + response.getAddress().getStreet1() + 
-                          ", " + response.getAddress().getCity());
-        
-        if (java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList() != null && !java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList().isEmpty()) {
-            System.out.println("Suggestions: " + java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList().size());
+        System.out.println("Standardized: " + response.getAddress().getStreet1() +
+                ", " + response.getAddress().getCity());
+
+        if (java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList() != null
+                && !java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList().isEmpty()) {
+            System.out.println("Suggestions: "
+                    + java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList().size());
         }
     }
 
@@ -105,7 +107,7 @@ public class AddressValidationServiceTest {
         AddressValidationResponse response = addressService.validateAddress(address);
 
         assertNotNull(response);
-        
+
         System.out.println("\n=== UK ADDRESS VALIDATION TEST ===");
         System.out.println("Original: " + address.getStreet1() + ", " + address.getCity());
         System.out.println("Valid: " + response.isValid());
@@ -126,7 +128,7 @@ public class AddressValidationServiceTest {
         AddressType type = addressService.detectAddressType(address);
 
         assertNotNull(type);
-        
+
         System.out.println("\n=== RESIDENTIAL ADDRESS TYPE DETECTION TEST ===");
         System.out.println("Address: " + address.getStreet1());
         System.out.println("Detected Type: " + type);
@@ -147,7 +149,7 @@ public class AddressValidationServiceTest {
         AddressType type = addressService.detectAddressType(address);
 
         assertNotNull(type);
-        
+
         System.out.println("\n=== COMMERCIAL ADDRESS TYPE DETECTION TEST ===");
         System.out.println("Address: " + address.getStreet1());
         System.out.println("Company: " + address.getName());
@@ -169,14 +171,15 @@ public class AddressValidationServiceTest {
         AddressType type = addressService.detectAddressType(address);
 
         assertNotNull(type);
-        
+
         System.out.println("\n=== PO BOX ADDRESS TYPE DETECTION TEST ===");
         System.out.println("Address: " + address.getStreet1());
         System.out.println("Detected Type: " + type);
-        
-        // Service classifies addresses - verify it returns a type (RESIDENTIAL or COMMERCIAL)
-        assertTrue(type == AddressType.RESIDENTIAL || type == AddressType.COMMERCIAL, 
-                  "PO Box should be classified as a valid address type");
+
+        // Service classifies addresses - verify it returns a type (RESIDENTIAL or
+        // COMMERCIAL)
+        assertTrue(type == AddressType.RESIDENTIAL || type == AddressType.COMMERCIAL,
+                "PO Box should be classified as a valid address type");
     }
 
     @Test
@@ -200,7 +203,7 @@ public class AddressValidationServiceTest {
         System.out.println("Street 1: " + address.getStreet1());
         System.out.println("Street 2: " + address.getStreet2());
         System.out.println("Valid: " + response.isValid());
-        
+
         if (response.getAddress().getStreet2() != null) {
             System.out.println("Standardized Apt: " + response.getAddress().getStreet2());
         }
@@ -234,7 +237,7 @@ public class AddressValidationServiceTest {
     void testIncompleteAddress() {
         AddressDTO address = new AddressDTO();
         address.setName("Test User");
-        address.setStreet1("Main St");  // Incomplete
+        address.setStreet1("Main St"); // Incomplete
         address.setCity("Springfield");
         address.setState("IL");
         address.setPostalCode("62701");
@@ -243,20 +246,22 @@ public class AddressValidationServiceTest {
         AddressValidationResponse response = addressService.validateAddress(address);
 
         assertNotNull(response);
-        
+
         System.out.println("\n=== INCOMPLETE ADDRESS VALIDATION TEST ===");
         System.out.println("Original: " + address.getStreet1());
         System.out.println("Valid: " + response.isValid());
-        
+
         if (!response.isValid() && java.util.Collections.<String>emptyList() != null) {
             System.out.println("Messages:");
             java.util.Collections.<String>emptyList().forEach(msg -> System.out.println("  - " + msg));
         }
-        
-        if (java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList() != null && !java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList().isEmpty()) {
-            System.out.println("Suggestions: " + java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList().size());
-            java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList().forEach(suggestion -> 
-                System.out.println("  - " + suggestion.getStreet1()));
+
+        if (java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList() != null
+                && !java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList().isEmpty()) {
+            System.out.println("Suggestions: "
+                    + java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList().size());
+            java.util.Collections.<com.thewu.eship.dto.shipping.AddressDTO>emptyList()
+                    .forEach(suggestion -> System.out.println("  - " + suggestion.getStreet1()));
         }
     }
 
@@ -274,11 +279,11 @@ public class AddressValidationServiceTest {
         AddressValidationResponse response = addressService.validateAddress(address);
 
         assertNotNull(response);
-        
+
         System.out.println("\n=== INVALID POSTAL CODE TEST ===");
         System.out.println("Postal Code: " + address.getPostalCode());
         System.out.println("Valid: " + response.isValid());
-        
+
         if (!response.isValid()) {
             System.out.println("✓ Correctly identified invalid postal code");
         }
@@ -289,9 +294,9 @@ public class AddressValidationServiceTest {
     void testAddressStandardization() {
         AddressDTO address = new AddressDTO();
         address.setName("Test User");
-        address.setStreet1("123 main street");  // lowercase
-        address.setCity("new york");  // lowercase
-        address.setState("ny");  // lowercase
+        address.setStreet1("123 main street"); // lowercase
+        address.setCity("new york"); // lowercase
+        address.setState("ny"); // lowercase
         address.setPostalCode("10001");
         address.setCountry("US");
 
@@ -302,25 +307,25 @@ public class AddressValidationServiceTest {
 
         System.out.println("\n=== ADDRESS STANDARDIZATION TEST ===");
         System.out.println("Original: " + address.getStreet1() + ", " + address.getCity());
-        System.out.println("Standardized: " + response.getAddress().getStreet1() + 
-                          ", " + response.getAddress().getCity());
-        
+        System.out.println("Standardized: " + response.getAddress().getStreet1() +
+                ", " + response.getAddress().getCity());
+
         // Check if state is uppercase
-        System.out.println("State: " + address.getState() + " -> " + 
-                          response.getAddress().getState());
+        System.out.println("State: " + address.getState() + " -> " +
+                response.getAddress().getState());
     }
 
     @Test
     @DisplayName("Test multiple address validations")
     void testBatchAddressValidation() {
         System.out.println("\n=== BATCH ADDRESS VALIDATION TEST ===");
-        
+
         AddressDTO[] addresses = {
-            createAddress("John Doe", "123 Main St", "New York", "NY", "10001", "US"),
-            createAddress("Jane Smith", "456 Oak Ave", "Los Angeles", "CA", "90001", "US"),
-            createAddress("Bob Wilson", "789 Elm St", "Chicago", "IL", "60601", "US"),
-            createAddress("Alice Brown", "321 Pine St", "Houston", "TX", "77001", "US"),
-            createAddress("Charlie Davis", "654 Maple Ave", "Phoenix", "AZ", "85001", "US")
+                createAddress("John Doe", "123 Main St", "New York", "NY", "10001", "US"),
+                createAddress("Jane Smith", "456 Oak Ave", "Los Angeles", "CA", "90001", "US"),
+                createAddress("Bob Wilson", "789 Elm St", "Chicago", "IL", "60601", "US"),
+                createAddress("Alice Brown", "321 Pine St", "Houston", "TX", "77001", "US"),
+                createAddress("Charlie Davis", "654 Maple Ave", "Phoenix", "AZ", "85001", "US")
         };
 
         int validCount = 0;
@@ -329,11 +334,11 @@ public class AddressValidationServiceTest {
             if (response.isValid()) {
                 validCount++;
             }
-            System.out.println((i + 1) + ". " + addresses[i].getCity() + ", " + 
-                              addresses[i].getState() + " - " + 
-                              (response.isValid() ? "✓ Valid" : "✗ Invalid"));
+            System.out.println((i + 1) + ". " + addresses[i].getCity() + ", " +
+                    addresses[i].getState() + " - " +
+                    (response.isValid() ? "✓ Valid" : "✗ Invalid"));
         }
-        
+
         System.out.println("\nTotal: " + validCount + "/" + addresses.length + " valid");
     }
 
@@ -352,21 +357,21 @@ public class AddressValidationServiceTest {
         System.out.println("\n=== ADDRESS COMPARISON TEST ===");
         System.out.println("Original Address:");
         System.out.println("  " + original.getStreet1());
-        System.out.println("  " + original.getCity() + ", " + original.getState() + " " + 
-                          original.getPostalCode());
-        
+        System.out.println("  " + original.getCity() + ", " + original.getState() + " " +
+                original.getPostalCode());
+
         if (response.getAddress() != null) {
             System.out.println("\nStandardized Address:");
             System.out.println("  " + response.getAddress().getStreet1());
-            System.out.println("  " + response.getAddress().getCity() + ", " + 
-                              response.getAddress().getState() + " " + 
-                              response.getAddress().getPostalCode());
+            System.out.println("  " + response.getAddress().getCity() + ", " +
+                    response.getAddress().getState() + " " +
+                    response.getAddress().getPostalCode());
         }
     }
 
     // Helper method to create addresses
-    private AddressDTO createAddress(String name, String street, String city, 
-                                     String state, String postalCode, String country) {
+    private AddressDTO createAddress(String name, String street, String city,
+            String state, String postalCode, String country) {
         AddressDTO address = new AddressDTO();
         address.setName(name);
         address.setStreet1(street);
